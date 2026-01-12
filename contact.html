@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>კონტაქტი</title>
+    <link rel="stylesheet" href="contact.css">
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+</head>
+<body>
+
+    <header class="main-header">
+        <nav>
+            <a href="index.html" class="logo"><img src="images/logo.jpg" alt="GS Golden Group"></a>
+            <div class="nav-links">
+                <ul>
+                    <li><a href="index.html">მთავარი</a></li>
+                    <li><a href="about.html">ჩვენ შესახებ</a></li>
+                    <li><a href="#">სიახლეები</a></li>
+                    <li><a href="#">შეფასებები</a></li>
+                    <li><a href="contact.html">კონტაქტი</a></li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+    
+      <div class="container">
+        <div class="left">
+           <h3 class="heading">დაგვიკავშირდით</h3>
+           <p class="text">დამატებითი ინფორმაციის მისაღებად ან ჩვენი პროექტებით
+            დაინტერესების შემთხვევაში, დაგვიკავშირდით ან გვეწვიეთ ოფისში.</p>
+           <form action="#">
+             <div class="inputBox">
+                <input type="text" 
+                name="name" 
+                class="name"
+                placeholder="სახელი">
+             </div>
+             <div class="inputBox">
+                <input type="text" 
+                name="email" 
+                class="email"
+                placeholder="ელ.ფოსტა">
+             </div>
+             <div class="inputBox">
+                <textarea 
+                name="message" 
+                class="message"
+                placeholder="შეტყობინება..."></textarea>
+             </div>
+             <button class="btn">გაგზავნა</button>
+           </form>
+        </div>
+        <div class="right">
+            <div class="map-container">
+                <iframe
+                  src="https://www.google.com/maps?q=კალოუბნის%20ქუჩა%201%20თბილისი&output=embed"
+                  loading="lazy"
+                  referrerpolicy="no-referrer-when-downgrade">
+                </iframe>
+              </div>
+              <div class="contact-info">
+                <div class="infoBox">
+                    <div class="icon">
+                        <ion-icon name="location"></ion-icon>
+                    </div>
+                    <div class="text">
+                        <p>თბილისი, კალოუბნის ქ. №1</p>
+                    </div>
+                </div>
+                <div class="infoBox">
+                    <div class="icon">
+                        <ion-icon name="call"></ion-icon>
+                    </div>
+                    <div class="text">
+                        <a href="tel:+995 555 12 34 56">+995 555 12 34 56</a>
+                    </div>
+                </div>
+                <div class="infoBox">
+                    <div class="icon">
+                        <ion-icon name="mail"></ion-icon>
+                    </div>
+                    <div class="text">
+                        <a href="mailto:info@gsgoldengroup.ge">info@gsgoldengroup.ge</a>
+                    </div>
+                </div>
+              </div>
+        </div>
+        <div class="social-icons">
+            <a href="#">
+                <ion-icon name="logo-facebook"></ion-icon>
+            </a>
+            <a href="#">
+                <ion-icon name="logo-linkedin"></ion-icon>
+            </a>
+            <a href="#">
+                <ion-icon name="logo-youtube"></ion-icon>
+            </a>
+        </div>
+      </div>
+
+
+      <!-- FOOTER -->
+<footer class="main-footer">
+
+    <div class="footer-container">
+        <div class="footer-about">
+            <h3>GS Golden Group</h3>
+            <p>უძრავი ქონების გაყიდვა • გაქირავება • შეფასება • კონსულტაცია</p>
+        </div>
+
+        <div class="footer-contact-horizontal">
+            <p><strong>📞</strong> +995 555 12 34 56</p>
+            <p><strong>📧</strong> info@gsgoldengroup.ge</p>
+            <p><strong>📍</strong> თბილისი, საქართველო</p>
+        </div>
+    </div>
+
+    <div class="footer-bottom">
+        © 2026 GS Golden Group • ყველა უფლება დაცულია
+    </div>
+
+</footer>
+
+       <!--    coins        -->       
+       <script src="script.js"></script>
+</body>
+</html>

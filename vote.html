@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="ka">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>მომხმარებლის შეფასებები</title>
+<link rel="stylesheet" href="reviews.css">
+<!-- Firebase SDK -->
+<script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore-compat.js"></script>
+</head>
+<body>
+
+<header class="main-header">
+    <nav>
+        <a href="index.html" class="logo">GS Golden Group</a>
+        <div class="nav-links">
+            <a href="index.html">მთავარი</a>
+            <a href="about.html">ჩვენს შესახებ</a>
+            <a href="reviews.html" class="active">შეფასებები</a>
+            <a href="contact.html">კონტაქტი</a>
+        </div>
+    </nav>
+</header>
+
+<section class="review-section">
+    <div class="review-container">
+        <h1>მომხმარებლის შეფასებები</h1>
+
+        <form id="reviewForm">
+            <input type="text" id="name" placeholder="სახელი" required>
+            <input type="email" id="email" placeholder="ელ.ფოსტა" required>
+            <div class="stars">
+                <span data-value="1">&#9733;</span>
+                <span data-value="2">&#9733;</span>
+                <span data-value="3">&#9733;</span>
+                <span data-value="4">&#9733;</span>
+                <span data-value="5">&#9733;</span>
+            </div>
+            <textarea id="comment" placeholder="შენი შეფასება..." required></textarea>
+            <button type="submit">გაგზავნა</button>
+            <p class="form-msg"></p>
+        </form>
+
+        <div class="reviews-list" id="reviewsList">
+            <!-- აქ გამოჩნდება ყველა ვერიფიცირებული კომენტარი -->
+        </div>
+    </div>
+</section>
+
+<script src="reviews.js"></script>
+</body>
+</html>
