@@ -5,11 +5,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>მომხმარებლის შეფასებები</title>
 <link rel="stylesheet" href="reviews.css">
-
 </head>
 <body>
 
-<!-- HEADER -->
+<!-- HEADER — უცვლელი -->
 <header class="main-header">
     <nav>
         <a href="index.html" class="logo"><img src="images/logo.jpg" alt="GS Golden Group"></a>
@@ -25,130 +24,94 @@
     </nav>
 </header>
 
-<!DOCTYPE html>
-<html lang="ka">
-<head>
-<meta charset="UTF-8">
-<title>მომხმარებლის შეფასებები</title>
-<style>
-    body {
-        margin: 0;
-        background: #f4f4f4;
-        font-family: "Segoe UI", sans-serif;
-    }
+<!-- REVIEW SECTION -->
+<div class="reviews-wrapper">
 
-    .container {
-        max-width: 700px;
-        margin: 40px auto;
-        background: white;
-        padding: 30px;
-        border-radius: 20px;
-        box-shadow: 0 0 25px rgba(0,0,0,0.1);
-        border: 2px solid #e6c781;
-    }
+    <!-- მარცხენა ნაწილი: კომენტარის დატოვება -->
+    <div class="write-box">
+        <h2>დაწერე კომენტარი</h2>
 
-    h1 {
-        text-align: center;
-        color: #b08a37;
-        text-transform: uppercase;
-        letter-spacing: 1px;
-    }
-
-    .input-group {
-        margin-bottom: 15px;
-    }
-
-    .input-group input,
-    .input-group textarea,
-    .input-group select {
-        width: 100%;
-        padding: 12px;
-        border-radius: 12px;
-        border: 1px solid #d9d9d9;
-        font-size: 16px;
-    }
-
-    textarea {
-        height: 120px;
-        resize: none;
-    }
-
-    .btn {
-        width: 100%;
-        padding: 14px;
-        background: linear-gradient(90deg, #d4af37, #b08a37);
-        color: white;
-        border: none;
-        border-radius: 12px;
-        font-size: 18px;
-        cursor: pointer;
-        transition: 0.3s;
-        text-transform: uppercase;
-    }
-
-    .btn:hover {
-        background: linear-gradient(90deg, #b08a37, #d4af37);
-    }
-
-    .review {
-        background: #fff8e0;
-        padding: 20px;
-        margin-top: 20px;
-        border-radius: 15px;
-        border-left: 5px solid #d4af37;
-    }
-
-    .review-name {
-        font-weight: bold;
-        font-size: 18px;
-        color: #b08a37;
-    }
-
-    .review-stars {
-        color: #ffb400;
-        margin: 5px 0;
-    }
-
-    .review-comment {
-        color: #333;
-        margin-top: 5px;
-        font-size: 16px;
-    }
-
-</style>
-</head>
-<body>
-
-<div class="container">
-    <h1>მომხმარებლის შეფასებები</h1>
-
-    <div class="input-group">
         <input id="name" type="text" placeholder="თქვენი სახელი">
-    </div>
 
-    <div class="input-group">
-        <select id="stars">
-            <option value="1">⭐ 1 ვარსკვლავი</option>
-            <option value="2">⭐ 2 ვარსკვლავი</option>
-            <option value="3">⭐ 3 ვარსკვლავი</option>
-            <option value="4">⭐ 4 ვარსკვლავი</option>
-            <option value="5" selected>⭐ 5 ვარსკვლავი</option>
-        </select>
-    </div>
+        <!-- Interactive stars -->
+        <div class="stars-input">
+            <span class="star" data-value="1">☆</span>
+            <span class="star" data-value="2">☆</span>
+            <span class="star" data-value="3">☆</span>
+            <span class="star" data-value="4">☆</span>
+            <span class="star" data-value="5">☆</span>
+        </div>
+        <input type="hidden" id="stars" value="5">
 
-    <div class="input-group">
         <textarea id="comment" placeholder="დაწერეთ თქვენი შეფასება..."></textarea>
+        <button onclick="addReview()">გაგზავნა</button>
     </div>
 
-    <button class="btn" onclick="addReview()">გაგზავნა</button>
+    <!-- მარჯვნივ: გამოქვეყნებული კომენტარები -->
+    <div class="reviews-box">
+        <h2>კომენტარები</h2>
+        <div id="reviews"></div>
+        <div id="pagination" class="pagination"></div>
+    </div>
 
-    <div id="reviews"></div>
 </div>
 
+<!-- FOOTER — უცვლელი -->
+<footer class="main-footer">
+    <div class="footer-container">
+        <div class="footer-about">
+            <p>უძრავი ქონების გაყიდვა • გაქირავება</p>
+        </div>
+
+        <div class="footer-contact-horizontal">
+            <p><strong>📞</strong> +995 555 12 34 56</p>
+            <p><strong>📧</strong> info@gsgoldengroup.ge</p>
+            <p><strong>📍</strong> თბილისი, კალოუბნის N1</p>
+        </div>
+    </div>
+
+    <div class="footer-bottom">
+        © 2026 GS Golden Group • ყველა უფლება დაცულია
+    </div>
+</footer>
+
 <script>
+const reviewsPerPage = 3; // თითო გვერდზე 3 კომენტარი
+let currentPage = 1;
+
+// Interactive stars
+const starsInput = document.querySelectorAll(".stars-input .star");
+const starsHidden = document.getElementById("stars");
+
+starsInput.forEach(star => {
+    star.addEventListener("mouseover", () => {
+        highlightStars(star.dataset.value);
+    });
+
+    star.addEventListener("mouseout", () => {
+        highlightStars(starsHidden.value);
+    });
+
+    star.addEventListener("click", () => {
+        starsHidden.value = star.dataset.value;
+        highlightStars(star.dataset.value);
+    });
+});
+
+function highlightStars(value) {
+    starsInput.forEach(star => {
+        if (star.dataset.value <= value) {
+            star.textContent = "⭐";
+        } else {
+            star.textContent = "☆";
+        }
+    });
+}
+
+// Add review
 function addReview() {
     let name = document.getElementById("name").value.trim();
-    let stars = document.getElementById("stars").value;
+    let stars = starsHidden.value;
     let comment = document.getElementById("comment").value.trim();
 
     if (name === "" || comment === "") {
@@ -169,60 +132,57 @@ function addReview() {
 
     document.getElementById("name").value = "";
     document.getElementById("comment").value = "";
+    starsHidden.value = 5;
+    highlightStars(5);
+
+    currentPage = Math.ceil(reviews.length / reviewsPerPage);
 
     loadReviews();
 }
 
+// Load reviews with pagination
 function loadReviews() {
     let reviews = JSON.parse(localStorage.getItem("reviews")) || [];
     let container = document.getElementById("reviews");
+    let pagination = document.getElementById("pagination");
 
     container.innerHTML = "";
 
-    reviews.reverse().forEach(r => {
+    let totalPages = Math.ceil(reviews.length / reviewsPerPage);
+
+    let start = (currentPage - 1) * reviewsPerPage;
+    let end = start + reviewsPerPage;
+    let paginatedReviews = reviews.slice().reverse().slice(start, end);
+
+    paginatedReviews.forEach(r => {
         container.innerHTML += `
-            <div class="review">
-                <div class="review-name">${r.name}</div>
-                <div class="review-stars">${"⭐".repeat(r.stars)}</div>
-                <div class="review-comment">${r.comment}</div>
-                <small>${r.date}</small>
+            <div class="review-card">
+                <div class="review-top">
+                    <span class="author">${r.name}</span>
+                    <span class="date">${r.date}</span>
+                </div>
+                <div class="stars">${"⭐".repeat(r.stars)}</div>
+                <p>${r.comment}</p>
             </div>
         `;
     });
+
+    // Pagination buttons
+    pagination.innerHTML = "";
+    if (totalPages > 1) {
+        for (let i = 1; i <= totalPages; i++) {
+            pagination.innerHTML += `<button class="page-btn ${i === currentPage ? 'active' : ''}" onclick="gotoPage(${i})">${i}</button>`;
+        }
+    }
+}
+
+function gotoPage(page) {
+    currentPage = page;
+    loadReviews();
 }
 
 loadReviews();
 </script>
-
-</body>
-</html>
-
-
-
-
-<!-- FOOTER -->
-<footer class="main-footer">
-
-    <div class="footer-container">
-        <div class="footer-about">
-
-            <p>უძრავი ქონების გაყიდვა • გაქირავება</p>
-        </div>
-
-        <div class="footer-contact-horizontal">
-            <p><strong>📞</strong> +995 555 12 34 56</p>
-            <p><strong>📧</strong> info@gsgoldengroup.ge</p>
-            <p><strong>📍</strong> თბილისი, კალოუბნის N1</p>
-        </div>
-    </div>
-
-    <div class="footer-bottom">
-        © 2026 GS Golden Group • ყველა უფლება დაცულია
-    </div>
-
-</footer>
-
-<script src="reviews.js"></script>
 
 </body>
 </html>
