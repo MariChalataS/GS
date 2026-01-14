@@ -1,27 +1,30 @@
-// Firebase კონფიგი – ჩაანაცვლე შენი დეტალებით
+// Firebase კონფიგი – ჩაწერე შენი დეტალები!
 const firebaseConfig = {
-    apiKey: "YOUR_API_KEY",
-    authDomain: "YOUR_PROJECT.firebaseapp.com",
-    projectId: "YOUR_PROJECT_ID",
-    storageBucket: "YOUR_PROJECT.appspot.com",
-    messagingSenderId: "SENDER_ID",
-    appId: "APP_ID"
+    apiKey: "AIzaSyBZvDAmJ-sFU_OWQ56LxWR-r3BjxOhPvP0",
+    authDomain: "gs-golden.firebaseapp.com",
+    projectId: "gs-golden",
+    storageBucket: "gs-golden.appspot.com",
+    messagingSenderId: "579151450148",
+    appId: "1:579151450148:web:d65c2881116cc3df7fc8b1"
 };
 
+// Firebase Init
 firebase.initializeApp(firebaseConfig);
 
 const auth = firebase.auth();
 const db = firebase.firestore();
 
-// ვარსკვლავების სისტემა
+// ⭐ ვარსკვლავების სისტემა ⭐
 let selectedRating = 0;
 const stars = document.querySelectorAll(".stars span");
 
 stars.forEach(star => {
     star.addEventListener("click", () => {
         selectedRating = star.dataset.value;
+
         stars.forEach(s => s.classList.remove("selected"));
         star.classList.add("selected");
+
         let prev = star.previousElementSibling;
         while(prev) {
             prev.classList.add("selected");
@@ -30,7 +33,7 @@ stars.forEach(star => {
     });
 });
 
-// ფორმის გაგზავნა
+// ✉ ფორმის გაგზავნა ✉
 document.getElementById("reviewForm").addEventListener("submit", async (e) => {
     e.preventDefault();
 
@@ -38,42 +41,51 @@ document.getElementById("reviewForm").addEventListener("submit", async (e) => {
     const email = document.getElementById("email").value.trim();
     const comment = document.getElementById("comment").value.trim();
 
-    if(!selectedRating) {
-        document.querySelector(".form-msg").textContent = "გთხოვთ შეარჩიოთ ვარსკვლავები";
+    if (!selectedRating) {
+        document.querySelector(".form-msg").textContent = "გთხოვთ შეარჩიოთ ვარსკვლავები ⭐";
         return;
     }
 
     try {
-        const user = await auth.createUserWithEmailAndPassword(email, "temporaryPassword123!");
+        // მომხმარებელი იქმნება დროებითი პაროლით
+        const tempPass = Math.random().toString(36).slice(-8) + "!Aa";
+
+        const user = await auth.createUserWithEmailAndPassword(email, tempPass);
         await user.user.sendEmailVerification();
 
-        // მონაცემები ფეირბეისში, მხოლოდ ვერიფიკაციის შემდეგ გამოჩნდება
+        // მონაცემების შენახვა (მალე გამოჩნდება მხოლოდ ვერიფიკაციის შემდეგ)
         await db.collection("reviews").doc(user.user.uid).set({
             name,
             email,
             rating: selectedRating,
             comment,
-            verified: false
+            verified: false,
+            date: new Date().toISOString()
         });
 
-        document.querySelector(".form-msg").textContent = "თქვენ მიიღებთ ვერიფიკაციის ელ-ფოსტას!";
+        document.querySelector(".form-msg").textContent = "გაგზავნილია! გთხოვთ შეამოწმოთ ელ-ფოსტა ვერიფიკაციისთვის.";
         document.getElementById("reviewForm").reset();
         stars.forEach(s => s.classList.remove("selected"));
         selectedRating = 0;
 
-    } catch(err) {
+    } catch (err) {
         console.error(err);
         document.querySelector(".form-msg").textContent = err.message;
     }
 });
 
-// აქ შეგიძლია შექმნა ფუნქცია, რომელიც ფეირბეისში არსებული VERIFIED კომენტარებს აჩვენებს
+// ✔ მხოლოდ ვერიფიცირებული შეფასებების ჩვენება
 const reviewsList = document.getElementById("reviewsList");
-db.collection("reviews").where("verified", "==", true)
+
+db.collection("reviews")
+    .where("verified", "==", true)
+    .orderBy("date", "desc")
     .onSnapshot(snapshot => {
         reviewsList.innerHTML = "";
+
         snapshot.forEach(doc => {
             const data = doc.data();
+
             reviewsList.innerHTML += `
                 <div class="review-item">
                     <div class="name">${data.name}</div>
